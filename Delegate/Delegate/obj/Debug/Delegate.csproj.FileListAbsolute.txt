@@ -1,0 +1,21 @@
+C:\Users\User\Documents\C#\Delegate\Delegate\bin\Debug\Delegate.exe.config
+C:\Users\User\Documents\C#\Delegate\Delegate\bin\Debug\Delegate.exe
+C:\Users\User\Documents\C#\Delegate\Delegate\bin\Debug\Delegate.pdb
+C:\Users\User\Documents\C#\Delegate\Delegate\obj\Debug\Delegate.csprojAssemblyReference.cache
+C:\Users\User\Documents\C#\Delegate\Delegate\obj\Debug\Delegate.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\C#\Delegate\Delegate\obj\Debug\Delegate.exe
+C:\Users\User\Documents\C#\Delegate\Delegate\obj\Debug\Delegate.pdb
+C:\Users\User\Documents\C#\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\bin\Debug\Delegate.exe.config
+C:\Users\User\Documents\C#\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\bin\Debug\Delegate.exe
+C:\Users\User\Documents\C#\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\bin\Debug\Delegate.pdb
+C:\Users\User\Documents\C#\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\obj\Debug\Delegate.csprojAssemblyReference.cache
+C:\Users\User\Documents\C#\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\obj\Debug\Delegate.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\C#\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\obj\Debug\Delegate.exe
+C:\Users\User\Documents\C#\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\obj\Debug\Delegate.pdb
+C:\Users\User\Desktop\События\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\bin\Debug\Delegate.exe.config
+C:\Users\User\Desktop\События\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\bin\Debug\Delegate.exe
+C:\Users\User\Desktop\События\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\bin\Debug\Delegate.pdb
+C:\Users\User\Desktop\События\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\obj\Debug\Delegate.csprojAssemblyReference.cache
+C:\Users\User\Desktop\События\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\obj\Debug\Delegate.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\События\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\obj\Debug\Delegate.exe
+C:\Users\User\Desktop\События\Вахитова Диана БПИ199 ДЗ Делегаты\Delegate\Delegate\obj\Debug\Delegate.pdb
