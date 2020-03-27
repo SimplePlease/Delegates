@@ -11,18 +11,18 @@ namespace Delegate
     class Program
     {
         /// <summary>
+        /// Делегат тип для создания ивента.
+        /// </summary>
+        /// <param name="messege"> Сообщение о типе ошибки.</param>
+        public delegate void ErrorNotificationType(string messege);
+
+        /// <summary>
         /// Константы с названием путей для чтения и записи файлов. Все располагается в директории с решением.
         /// </summary>
         public const string input1 = "../../../expressions.txt";
         public const string output1 = "../../../answers.txt";
         public const string input2 = "../../../expressions_checker.txt";
         public const string output2 = "../../../results.txt";
-
-        /// <summary>
-        /// Делегат тип для создания ивента.
-        /// </summary>
-        /// <param name="messege"> Сообщение о типе ошибки.</param>
-        public delegate void ErrorNotificationType(string messege);
 
         /// <summary>
         /// Метод для вывода на консоль ошибок. Обработчик события.
