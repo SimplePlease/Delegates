@@ -11,6 +11,12 @@ namespace Delegate
     class Program
     {
         /// <summary>
+        /// Делегат тип для создания ивента.
+        /// </summary>
+        /// <param name="messege"> Сообщение о типе ошибки.</param>
+        public delegate void ErrorNotificationType(string messege);
+
+        /// <summary>
         /// Константы с названием путей для чтения и записи файлов. Все располагается в директории с решением.
         /// </summary>
         public const string input1 = "../../../expressions.txt";
@@ -19,104 +25,156 @@ namespace Delegate
         public const string output2 = "../../../results.txt";
 
         /// <summary>
-        /// Инициализация делегата.
+        /// Метод для вывода на консоль ошибок. Обработчик события.
         /// </summary>
-        /// <param name="a"> Первое слагаемое/множитель/... </param>
-        /// <param name="b"> Второй аргумент в выражении. </param>
-        /// <returns></returns>
-        public delegate double MathOperation(double a, double b);
-
-        /// <summary>
-        /// Объявление словаря со строкой-ключом и делегатами-значениями.
-        /// </summary>
-        public static Dictionary<string, MathOperation> operations = new Dictionary<string, MathOperation>(5);
-
-        /// <summary>
-        /// Метод сложения.
-        /// </summary>
-        /// <param name="a"> Первое слагаемое. </param>
-        /// <param name="b"> Второе слагаемое. </param>
-        /// <returns></returns>
-        public static double Plus(double a, double b)
+        /// <param name="message"> Сообщение на консоли о типе ошибки + дата.</param>
+        public static void ConsoleErrorHandler(string message)
         {
-            return a + b;
+            Console.WriteLine(message + " " + DateTime.Now);
         }
 
         /// <summary>
-        /// Метод умножения.
+        /// Обработчик события. Для каждого типа сохраняет свое значение в файл.
         /// </summary>
-        /// <param name="a"> Первый множитель. </param>
-        /// <param name="b"> Второй множитель. </param>
-        /// <returns></returns>
-        public static double Mult(double a, double b)
+        /// <param name="message"></param>
+        public static void ResultErrorHandler(string message)
         {
-            return a * b;
+            try
+            {
+                if (message == "Результат не является числом.")
+                {
+                    File.AppendAllText(output1, "не число" + Environment.NewLine);
+                    return;
+                }
+                else if (message == "Значение было недопустимо малым или недопустимо большим для Double.")
+                {
+                    File.AppendAllText(output1, "слишком много" + Environment.NewLine);
+                    return;
+                }
+                else if (message == "Данный ключ отсутствует в словаре.")
+                {
+                    File.AppendAllText(output1, "неверный оператор" + Environment.NewLine);
+                    return;
+                }
+                else if (message == "Деление на 0.")
+                {
+                    File.AppendAllText(output1, "bruh" + Environment.NewLine);
+                    return;
+                }
+                else if (message == "Входная строка имела неверный формат.")
+                {
+                    File.AppendAllText(output1, "не парсится" + Environment.NewLine);
+                    return;
+                }
+
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (SecurityException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         /// <summary>
-        /// Метод деления.
+        /// Метод, который очищает файлы при повторе решения.
         /// </summary>
-        /// <param name="a"> Делимое. </param>
-        /// <param name="b"> Делитель. </param>
-        /// <returns></returns>
-        public static double Divide(double a, double b)
+        public static void ClearPaths()
         {
-            return a / b;
+            try
+            {
+                if (File.Exists(output1))
+                {
+                    File.Delete(output1);
+                }
+                if (File.Exists(output2))
+                {
+                    File.Delete(output2);
+                }
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (SecurityException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
 
         /// <summary>
-        /// Метод вычитания.
+        /// Метод, который крафтит файл с ответами. Считывает из файла выражения и решает их
+        /// при помощи объекта-калькулятора.
         /// </summary>
-        /// <param name="a"> Уменьшаемое. </param>
-        /// <param name="b"> Вычитаемое. </param>
-        /// <returns></returns>
-        public static double Minus(double a, double b)
+        /// <param name="calc"> Калькулятор. </param>
+        public static void MakeAnswerFile(Calculator calc)
         {
-            return a - b;
-        }
+            try
+            {
+                // Считываем примеры из файла.
+                string[] firstDoc = File.ReadAllLines(input1);
 
-        /// <summary>
-        /// Метод возведения в степень.
-        /// </summary>
-        /// <param name="a"> Возводимое в степень. </param>
-        /// <param name="b"> Степень. </param>
-        /// <returns></returns>
-        public static double Stepen(double a, double b)
-        {
-            return Math.Pow(a, b);
-        }
+                // Решаем каждый пример.
+                for (int i = 0; i < firstDoc.Length; i++)
+                {
+                    try
+                    {
+                        // Вычиление результата выражения из первого файла. 
+                        double answer = calc.Calculate(firstDoc[i]);
 
-        /// <summary>
-        /// Метод, которое сплитит строку и возвращаем результат выражения. 
-        /// </summary>
-        /// <param name="expr"> Строка с ппримером. </param>
-        /// <returns></returns>
-        public static double Calculate(string expr)
-        {
-            string[] problem = expr.Split(' ');
-            double a = double.Parse(problem[0].ToString());
-            double b = double.Parse(problem[2].ToString());
-            return operations[problem[1]](a, b);
-        }
+                        // Запись в файл.
+                        File.AppendAllText(output1, calc.Calculate(firstDoc[i]).ToString("f3") + Environment.NewLine);
+                    }
+                    catch (Exception)
+                    {
 
-        /// <summary>
-        /// Метод проверки настоящего ответа и ответа в предложенном для провкерки файле.
-        /// </summary>
-        /// <param name="realAns"> Результат, вычисляемый программой. </param>
-        /// <param name="expr"> Результат в файле. </param>
-        /// <returns></returns>
-        public static string Check(string realAns, string expr)
-        {
-            if (realAns == expr) return "OK";
-            else return "Error";
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (SecurityException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         /// <summary>
         /// Сверяем ответы с ответами из файла с правильными ответами. Записываем результат ещё в один файл.
+        /// в случае эксепшенов, в файл записываются конкретные слова из-за обработчика события.
         /// Запишем суммарное количество ошибок.
         /// </summary>
-        /// <param>  </param>
-        public static void CheckAnswers()
+        /// <param name="calc"> Калькулятор. </param>
+        public static void CheckAnswers(Calculator calc)
         {
             try
             {
@@ -131,10 +189,10 @@ namespace Delegate
                 {
                     try
                     {
-                        if (Check(answers[i], secondDoc[i]) == "Error") mistakes++; // Увелечение значения счетчика.
+                        if (calc.Check(answers[i], secondDoc[i]) == "Error") mistakes++; // Увелечение значения счетчика.
 
                         // Запись в файл.
-                        File.AppendAllText(output2, Check(answers[i], secondDoc[i]) + Environment.NewLine);
+                        File.AppendAllText(output2, calc.Check(answers[i], secondDoc[i]) + Environment.NewLine);
                     }
                     catch (Exception)
                     {
@@ -159,63 +217,25 @@ namespace Delegate
                 Console.WriteLine(ex.Message);
             }
         }
-
         static void Main(string[] args)
         {
-            // Передача методов в делегаты. 
-            // Альтернативное решение - сделать через анонимные методы.
-            /*MathOperation delTrue;
-            operations.Add("0", delTrue = (a, b) => a + b);
-            MathOperation delTry = (a, b) => a + b;
-            Console.WriteLine(delTry(3, 5));
-            Console.WriteLine(operations["0"](4, 8));*/
-            MathOperation delPlus = Plus;
-            MathOperation delMinus = Minus;
-            MathOperation delMult = Mult;
-            MathOperation delDiv = Divide;
-            MathOperation delStepen = Stepen;
+            Calculator calc = new Calculator();
 
-            // Передача делегатов в словарь. 
-            operations.Add("*", delMult);
-            operations.Add("/", delDiv);
-            operations.Add("+", delPlus);
-            operations.Add("-", delMinus);
-            operations.Add("^", delStepen);
+            // Подписываем на событие методы-обработчики.
+            calc.ErrorNotification += ConsoleErrorHandler;
+            calc.ErrorNotification += ResultErrorHandler;
             do
             {
-                Console.WriteLine("Чекайте файлы и подождите предложение о повторе решения.");
                 try
                 {
                     // Если программу будут перезапускать, то удалять файлы с результатами после каждого запуска.
-                    if (File.Exists(output1))
-                    {
-                        File.Delete(output1);
-                    }
-                    if (File.Exists(output2))
-                    {
-                        File.Delete(output2);
-                    }
+                    Program.ClearPaths();
 
-                    // Чтение из файлов в массивы строк. 
-                    string[] firstDoc = File.ReadAllLines(input1);
-                    string[] secondDoc = File.ReadAllLines(input2);
+                    // Создаем нужные файлы.
+                    MakeAnswerFile(calc);
+                    CheckAnswers(calc);
 
-                    for (int i = 0; i < firstDoc.Length; i++)
-                    {
-                        try
-                        {
-                            // Вычиление результата выражения из первого файла. 
-                            double answer = Calculate(firstDoc[i]);
-
-                            // Запись в файл.
-                            File.AppendAllText(output1, answer.ToString("f3") + Environment.NewLine);
-                        }
-                        catch (Exception)
-                        {
-                            Console.WriteLine("Входная строка имела неверный формат.");
-                        }
-                    }
-                    CheckAnswers();
+                    Console.WriteLine("Чекайте файлы и подождите предложение о повторе решения. Оно что-то медлит.");
                 }
                 // Ексепшены. 
                 catch (IOException ex)
@@ -235,6 +255,7 @@ namespace Delegate
                     Console.WriteLine(ex.Message);
                 }
 
+                // Повтор решения.
                 Console.WriteLine("Нажмите Enter, чтобы повторить.");
             } while (Console.ReadKey().Key == ConsoleKey.Enter);
 
